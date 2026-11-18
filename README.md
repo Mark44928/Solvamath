@@ -115,7 +115,7 @@ smoke test. The game core has no Textual imports and is tested separately.
 - [Plusafetch](https://github.com/Mark44928/Plusafetch) — C++23 system fetch
 - [pkg-manager](https://github.com/Mark44928/Easy-Termux-Package-Manager) — Termux package manager
 - [NoNameOS](https://github.com/Mark44928/NoNameOS) — single-file C++ OS simulation
-- [Greenit](https://github.com/Mark44928/Greenit) · [Bluney](https://github.com/Mark44928/Bluney) — terminal theme families
+- [Greenit](https://github.com/Mark44928/Greenit) · [Bluney](https://github.com/Mark44928/Bluney) · [Yellen](https://github.com/Mark44928/Yellen) — terminal theme families
 - [Android9-audios](https://github.com/Mark44928/Android9-audios) — stock Android sounds
 - [Anti-bloatware](https://github.com/Mark44928/Anti-bloatware-list-for-Android-TV-Boxes-and-Sticks-for-rooted) — Android TV cleanup
 - [android12-fastfetch](https://github.com/Mark44928/android12-fastfetch) — Android fetch config
