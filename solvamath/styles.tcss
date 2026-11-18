@@ -1,0 +1,263 @@
+Screen {
+    background: #0C1F17;
+    color: #DEF4E5;
+    align: center top;
+    overflow-y: auto;
+}
+
+#menu {
+    width: 94;
+    max-width: 100%;
+    height: auto;
+    margin: 1 2;
+    padding: 1 2;
+}
+
+#logo {
+    width: 100%;
+    color: #7BD88F;
+    text-style: bold;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#tagline {
+    width: 100%;
+    color: #9CB8A3;
+    text-align: center;
+    margin-bottom: 1;
+}
+
+#profile-line {
+    width: 100%;
+    color: #E0CD97;
+    text-align: center;
+    margin-bottom: 1;
+}
+
+#section-label {
+    color: #7BD88F;
+    text-style: bold;
+    margin: 1 0 0 0;
+}
+
+#mode-grid {
+    layout: grid;
+    grid-size: 2 2;
+    grid-gutter: 1 2;
+    height: auto;
+    width: 100%;
+    margin: 0 0 1 0;
+}
+
+#mode-grid Button {
+    width: 100%;
+    height: 3;
+    border: round #2F6B4C;
+    background: #122A1F;
+    color: #DEF4E5;
+}
+
+#mode-grid Button:hover {
+    background: #193B2C;
+    border: round #7BD88F;
+}
+
+#utility-row, #result-buttons, #game-actions {
+    height: 3;
+    width: 100%;
+}
+
+#utility-row {
+    layout: grid;
+    grid-size: 4 1;
+    grid-gutter: 0 1;
+}
+
+#result-buttons, #game-actions {
+    layout: horizontal;
+    height: 3;
+    width: 100%;
+}
+
+#result-buttons Button, #game-actions Button {
+    width: 1fr;
+    height: 3;
+}
+
+#utility-row Button, #result-buttons Button, #game-actions Button {
+    height: 3;
+    border: round #2F6B4C;
+    background: #122A1F;
+    color: #DEF4E5;
+}
+
+#utility-row Button {
+    width: 100%;
+}
+
+#utility-row Button:hover, #result-buttons Button:hover, #game-actions Button:hover {
+    background: #193B2C;
+    border: round #7BD88F;
+}
+
+Button:focus {
+    background: #193B2C;
+    color: #DEF4E5;
+    border: round #7BD88F;
+    text-style: bold;
+}
+
+#menu-hint {
+    width: 100%;
+    color: #78997F;
+    text-align: center;
+    margin-top: 1;
+}
+
+#game {
+    width: 100%;
+    max-width: 94;
+    height: auto;
+    margin: 1 2;
+    padding: 1 2;
+}
+
+#game-title {
+    color: #7BD88F;
+    text-style: bold;
+    text-align: center;
+}
+
+#status-line {
+    width: 100%;
+    color: #E0CD97;
+    text-align: center;
+}
+
+#timer {
+    width: 100%;
+    height: 1;
+    margin: 0 0 1 0;
+}
+
+#puzzle-card {
+    width: 100%;
+    height: auto;
+    border: round #2F6B4C;
+    background: #122A1F;
+    padding: 1 2;
+    margin-bottom: 1;
+}
+
+#puzzle-kind {
+    width: 100%;
+    color: #63C9A8;
+    text-style: bold;
+    text-align: center;
+}
+
+#puzzle-prompt {
+    width: 100%;
+    color: #DEF4E5;
+    text-style: bold;
+    text-align: center;
+    margin: 1 0;
+}
+
+#answer {
+    width: 100%;
+    background: #09150F;
+    color: #DEF4E5;
+    border: tall #2F6B4C;
+}
+
+#answer:focus {
+    border: tall #7BD88F;
+}
+
+#feedback {
+    width: 100%;
+    height: auto;
+    min-height: 2;
+    text-align: center;
+    color: #9CB8A3;
+    margin: 1 0;
+}
+
+#game-hint {
+    width: 100%;
+    color: #78997F;
+    text-align: center;
+}
+
+#result-card, #stats-card, #help-card {
+    width: 100%;
+    max-width: 94;
+    height: auto;
+    border: round #2F6B4C;
+    background: #122A1F;
+    padding: 1 2;
+    margin: 1 2;
+}
+
+#result-grade {
+    width: 100%;
+    color: #E0CD97;
+    text-style: bold;
+    text-align: center;
+}
+
+#result-summary, #stats-summary, #help-body {
+    width: 100%;
+    height: auto;
+}
+
+#result-detail {
+    width: 100%;
+    color: #9CB8A3;
+    text-align: center;
+}
+
+#result-buttons {
+    margin-top: 1;
+}
+
+#stats-table {
+    height: auto;
+    max-height: 12;
+    margin: 1 0;
+}
+
+#achievements {
+    color: #E0CD97;
+    height: auto;
+}
+
+#help-body {
+    color: #DEF4E5;
+}
+
+.title-accent {
+    color: #7BD88F;
+    text-style: bold;
+}
+
+.dim-text {
+    color: #78997F;
+}
+
+.good-text {
+    color: #7BD88F;
+    text-style: bold;
+}
+
+.bad-text {
+    color: #F07178;
+    text-style: bold;
+}
+
+.gold-text {
+    color: #E0CD97;
+    text-style: bold;
+}
