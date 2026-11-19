@@ -26,3 +26,5 @@ jobs:
         run: |
           python -m solvamath --version
           SOLVAMATH_DATA_DIR="$RUNNER_TEMP/solvamath" python -m solvamath --stats
+      - name: Installer smoke
+        run: bash tests/install-smoke.sh

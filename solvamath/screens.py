@@ -193,7 +193,7 @@ class GameScreen(ThemedScreen):
     def _refresh_view(self) -> None:
         palette = self.app.palette
         game = self.game
-        lives = "∞" if game.mode.key == "zen" else "♥" * max(0, game.lives)
+        lives = "ZEN" if game.mode.key == "zen" else f"{max(0, game.lives)}/{game.max_lives}"
         title = Text()
         title.append("SOLVAMATH ", style=f"bold {palette.accent}")
         title.append(f"{game.mode.label.upper()} · {game.difficulty.label.upper()}", style=palette.muted)

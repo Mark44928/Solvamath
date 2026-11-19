@@ -24,6 +24,7 @@ async def test_menu_and_game_screen_boot(tmp_path: Path) -> None:
         await pilot.pause()
         assert isinstance(app.screen, GameScreen)
         screen = app.screen
+        assert "LIVES 3/3" in str(screen.query_one("#status-line").render())
         screen.query_one("#answer").value = screen.game.puzzle.answer
         await pilot.press("enter")
         await pilot.pause()

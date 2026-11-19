@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+  <title id="t">Solvamath</title>
+  <desc id="d">Solvamath app icon: a sigma and plus on a blue puzzle tile.</desc>
+  <rect width="512" height="512" rx="104" fill="#0E1B2E"/>
+  <circle cx="256" cy="256" r="190" fill="#122A46" stroke="#2A4567" stroke-width="4"/>
+  <rect x="137" y="137" width="238" height="238" rx="48" fill="#193754" stroke="#7DBBFF" stroke-width="7"/>
+  <path d="M195 195h92l-54 46 54 46h-92" fill="none" stroke="#E3EFF9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="342" cy="342" r="45" fill="#E0CD97"/>
+  <path d="M324 342h36M342 324v36" stroke="#0E1B2E" stroke-width="8" stroke-linecap="round"/>
+</svg>

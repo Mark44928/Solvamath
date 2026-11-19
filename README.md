@@ -7,7 +7,7 @@ Seven puzzle families, four run modes, four difficulties, a timer, streaks,
 hints, achievements and a persistent local record — all in a fast TUI.
 
 [![CI](https://github.com/Mark44928/Solvamath/actions/workflows/ci.yml/badge.svg)](https://github.com/Mark44928/Solvamath/actions/workflows/ci.yml)
-[![Pages](https://img.shields.io/badge/play-GitHub%20Pages-7DBBFF)](https://mark44928.github.io/Solvamath/)
+[![Pages](https://img.shields.io/badge/site-GitHub%20Pages-7DBBFF)](https://mark44928.github.io/Solvamath/)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![Textual](https://img.shields.io/badge/Textual-1.0%2B-5e5ce6)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -20,6 +20,19 @@ hints, achievements and a persistent local record — all in a fast TUI.
 pipx install git+https://github.com/Mark44928/Solvamath
 solvamath
 ```
+
+Or use the prefix-aware installer:
+
+```bash
+git clone https://github.com/Mark44928/Solvamath
+cd Solvamath
+bash install.sh
+solvamath
+```
+
+It creates an isolated venv and links into `$PREFIX/bin` on Termux or
+`~/.local/bin` on Linux. `--prefix DIR` overrides the launcher directory;
+`--uninstall` removes the link and managed venv.
 
 Or from a clone:
 
