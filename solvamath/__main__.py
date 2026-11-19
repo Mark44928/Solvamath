@@ -7,6 +7,7 @@ from collections.abc import Sequence
 
 from . import __version__
 from .models import DIFFICULTY_ORDER
+from .puzzles import safe_eval_expression
 from .storage import Store
 from .theme import THEME_ORDER
 
@@ -21,6 +22,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--difficulty", choices=DIFFICULTY_ORDER, help="set difficulty for this launch")
     parser.add_argument("--theme", choices=THEME_ORDER, help="set the color theme")
     parser.add_argument("--stats", action="store_true", help="print persistent stats and exit")
+    parser.add_argument("--repl", action="store_true", help="open the arithmetic REPL")
     parser.add_argument("--seed", type=int, help="use a fixed puzzle seed (testing/replays)")
     return parser
 
@@ -42,6 +44,48 @@ def print_stats(store: Store) -> None:
             )
 
 
+def run_repl(store: Store) -> int:
+    """Small dependency-free arithmetic REPL with game settings commands."""
+    print("Solvamath REPL — type an expression, or help / stats / theme / quit")
+    while True:
+        try:
+            line = input("solvamath> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            return 0
+        if not line:
+            continue
+        command, _, rest = line.partition(" ")
+        command = command.lower()
+        if command in {"quit", "exit"}:
+            return 0
+        if command == "help":
+            print("  <expression>   evaluate arithmetic, e.g. (6+6)*(8-4)")
+            print("  stats          show your persistent record")
+            print("  theme [name]   show or set the TUI theme")
+            print("  quit / exit    leave the REPL")
+            continue
+        if command == "stats":
+            print_stats(store)
+            continue
+        if command == "theme":
+            name = rest.strip().lower()
+            if not name:
+                print(f"theme: {store.settings.theme}")
+            elif name not in THEME_ORDER:
+                print(f"unknown theme: {name} (try {', '.join(THEME_ORDER)})")
+            else:
+                store.update_settings(theme=name)
+                print(f"theme: {name}")
+            continue
+        try:
+            result = safe_eval_expression(line)
+        except ValueError as exc:
+            print(f"error: {exc}")
+        else:
+            print(f"= {result:.12g}")
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     store = Store()
@@ -52,6 +96,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.stats:
         print_stats(store)
         return 0
+    if args.repl:
+        return run_repl(store)
     from .app import SolvamathApp
 
     start_mode = "daily" if args.daily else (

@@ -102,6 +102,7 @@ solvamath --difficulty hard   # launch with a difficulty
 solvamath --theme bluney      # launch with a theme
 solvamath --stats             # print stats and exit
 solvamath --seed 1234         # deterministic puzzle sequence for testing
+solvamath --repl              # arithmetic scratchpad with stats/theme commands
 ```
 
 ## Development
@@ -110,7 +111,7 @@ solvamath --seed 1234         # deterministic puzzle sequence for testing
 make check
 ```
 
-Runs Ruff, the full 14-test suite, the CLI version check and a headless stats
+Runs Ruff, the full 16-test suite, the CLI version check and a headless stats
 smoke test. The game core has no Textual imports and is tested separately.
 
 ## Screenshots

@@ -1,6 +1,6 @@
 [project]
 name = "solvamath"
-version = "1.0.0"
+version = "1.1.0"
 description = "A feature-packed terminal math puzzle game built with Python + Textual"
 readme = "README.md"
 requires-python = ">=3.10"
