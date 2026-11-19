@@ -1,6 +1,6 @@
 # Solvamath
 
-<p align="center"><img src="assets/logo.svg" width="760" alt="Solvamath logo"></p>
+<p align="center"><img src="assets/logo.svg?v=2" width="760" alt="Solvamath logo"></p>
 
 A full-featured terminal math puzzle game built with **Python** and **Textual**.
 Seven puzzle families, four run modes, four difficulties, a timer, streaks,
