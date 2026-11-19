@@ -30,6 +30,10 @@ THEMES = {
         "bluney", "Bluney", "#0E1B2E", "#122A46", "#193754",
         "#E3EFF9", "#9DB8D2", "#7DBBFF", "#8BD5FF", "#E0CD97", "#7DBBFF", "#F07178",
     ),
+    "yellen": Palette(
+        "yellen", "Yellen", "#171408", "#24200C", "#332B10",
+        "#F3E8B8", "#A79765", "#F2D14E", "#E6C15A", "#E0CD97", "#A9B85A", "#C76A52",
+    ),
     "nord": Palette(
         "nord", "Nord", "#2E3440", "#3B4252", "#434C5E",
         "#ECEFF4", "#9AA7B8", "#88C0D0", "#81A1C1", "#EBCB8B", "#A3BE8C", "#BF616A",
@@ -43,7 +47,7 @@ THEMES = {
         "#F0F0F0", "#999999", "#DDDDDD", "#FFFFFF", "#DDDDDD", "#EEEEEE", "#FF6B6B",
     ),
 }
-THEME_ORDER = ("greenit", "bluney", "nord", "dracula", "mono")
+THEME_ORDER = ("greenit", "bluney", "yellen", "nord", "dracula", "mono")
 
 
 def get_palette(name: str) -> Palette:

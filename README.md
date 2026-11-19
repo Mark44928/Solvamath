@@ -55,7 +55,7 @@ solvamath
 | **Zen** | 10 puzzles, no timer, no death |
 
 Difficulties range from **Easy** to **Expert**. They change the number ranges,
-puzzle mix, time limit and scoring. Themes: **Greenit**, **Bluney**, **Nord**,
+puzzle mix, time limit and scoring. Themes: **Greenit**, **Bluney**, **Yellen**, **Nord**,
 **Dracula** and **Mono**.
 
 ## Puzzle families
