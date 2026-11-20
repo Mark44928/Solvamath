@@ -102,7 +102,7 @@ solvamath --difficulty hard   # launch with a difficulty
 solvamath --theme bluney      # launch with a theme
 solvamath --stats             # print stats and exit
 solvamath --seed 1234         # deterministic puzzle sequence for testing
-solvamath --repl              # arithmetic scratchpad with stats/theme commands
+solvamath --repl              # practice puzzles in a terminal REPL
 ```
 
 ## Development

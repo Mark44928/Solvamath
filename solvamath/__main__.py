@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import random
 from collections.abc import Sequence
 
 from . import __version__
-from .models import DIFFICULTY_ORDER
-from .puzzles import safe_eval_expression
+from .models import DIFFICULTIES, DIFFICULTY_ORDER
+from .puzzles import check_answer, make_puzzle
 from .storage import Store
 from .theme import THEME_ORDER
 
@@ -22,7 +23,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--difficulty", choices=DIFFICULTY_ORDER, help="set difficulty for this launch")
     parser.add_argument("--theme", choices=THEME_ORDER, help="set the color theme")
     parser.add_argument("--stats", action="store_true", help="print persistent stats and exit")
-    parser.add_argument("--repl", action="store_true", help="open the arithmetic REPL")
+    parser.add_argument("--repl", action="store_true", help="practice puzzles in a REPL")
     parser.add_argument("--seed", type=int, help="use a fixed puzzle seed (testing/replays)")
     return parser
 
@@ -44,29 +45,66 @@ def print_stats(store: Store) -> None:
             )
 
 
+def _show_puzzle(puzzle, difficulty: str) -> None:
+    print(f"\n{puzzle.title.upper()}  ·  {DIFFICULTIES[difficulty].label}")
+    print(puzzle.prompt)
+
+
 def run_repl(store: Store) -> int:
-    """Small dependency-free arithmetic REPL with game settings commands."""
-    print("Solvamath REPL — type an expression, or help / stats / theme / quit")
+    """Practice puzzles with a persistent score record and simple commands."""
+    rng = random.Random()
+    difficulty = store.settings.difficulty
+    puzzle = make_puzzle(rng, difficulty)
+    solved = tried = 0
+    print("Solvamath REPL — solve puzzles here; type help for commands.")
+    _show_puzzle(puzzle, difficulty)
     while True:
         try:
             line = input("solvamath> ").strip()
         except (EOFError, KeyboardInterrupt):
             print()
-            return 0
-        if not line:
-            continue
+            line = "quit"
         command, _, rest = line.partition(" ")
         command = command.lower()
         if command in {"quit", "exit"}:
+            if solved or tried:
+                print(f"session: {solved} solved / {tried} attempts")
             return 0
+        if not line:
+            continue
         if command == "help":
-            print("  <expression>   evaluate arithmetic, e.g. (6+6)*(8-4)")
-            print("  stats          show your persistent record")
-            print("  theme [name]   show or set the TUI theme")
-            print("  quit / exit    leave the REPL")
+            print("  <answer>        answer the current puzzle")
+            print("  hint            show a hint")
+            print("  skip            reveal the answer and move on")
+            print("  difficulty [x]  show or set Easy/Normal/Hard/Expert")
+            print("  stats           show your persistent record")
+            print("  theme [name]    show or set the TUI theme")
+            print("  quit / exit     leave the REPL")
+            continue
+        if command == "hint":
+            print(f"hint: {puzzle.hint}")
+            continue
+        if command == "skip":
+            print(f"answer: {puzzle.answer}")
+            puzzle = make_puzzle(rng, difficulty)
+            _show_puzzle(puzzle, difficulty)
             continue
         if command == "stats":
+            print(f"session: {solved} solved / {tried} attempts")
             print_stats(store)
+            continue
+        if command == "difficulty":
+            name = rest.strip().lower()
+            if not name:
+                print(f"difficulty: {difficulty}")
+            elif name not in DIFFICULTY_ORDER:
+                print(f"unknown difficulty: {name} (try {', '.join(DIFFICULTY_ORDER)})")
+            else:
+                difficulty = name
+                store.update_settings(difficulty=name)
+                puzzle = make_puzzle(rng, difficulty)
+                print(f"difficulty: {name}")
+                _show_puzzle(puzzle, difficulty)
             continue
         if command == "theme":
             name = rest.strip().lower()
@@ -78,12 +116,15 @@ def run_repl(store: Store) -> int:
                 store.update_settings(theme=name)
                 print(f"theme: {name}")
             continue
-        try:
-            result = safe_eval_expression(line)
-        except ValueError as exc:
-            print(f"error: {exc}")
+
+        tried += 1
+        if check_answer(puzzle, line):
+            solved += 1
+            print("correct — next puzzle")
+            puzzle = make_puzzle(rng, difficulty)
+            _show_puzzle(puzzle, difficulty)
         else:
-            print(f"= {result:.12g}")
+            print("not quite — try again, or type hint / skip")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
