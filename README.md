@@ -130,6 +130,8 @@ smoke test. The game core has no Textual imports and is tested separately.
 - [pkg-manager](https://github.com/Mark44928/Easy-Termux-Package-Manager) — Termux package manager
 - [NoNameOS](https://github.com/Mark44928/NoNameOS) — single-file C++ OS simulation
 - [Greenit](https://github.com/Mark44928/Greenit) · [Bluney](https://github.com/Mark44928/Bluney) · [Yellen](https://github.com/Mark44928/Yellen) — terminal theme families
+- [Fluffless Prompt](https://github.com/Mark44928/FlufflessPrompt) — quiet Oh My Zsh theme with Git state and exit codes
+- [Weatui](https://github.com/Mark44928/Weatui) — friendly Open-Meteo weather TUI
 - [Android9-audios](https://github.com/Mark44928/Android9-audios) — stock Android sounds
 - [Anti-bloatware](https://github.com/Mark44928/debloat-android-tv) — Android TV cleanup
 - [android12-fastfetch](https://github.com/Mark44928/android12-fastfetch) — Android fetch config
