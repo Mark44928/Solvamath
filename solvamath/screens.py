@@ -13,6 +13,7 @@ from textual.widgets import Button, DataTable, Input, ProgressBar, Static
 from .achievements import achievements_for
 from .game import Game
 from .models import DIFFICULTIES, Outcome
+from .summary import accuracy_percent, mode_counts, recent_scores, sparkline
 
 LOGO = (
     "  █▀ █▀█ █░░ █░█ █▀█ █▀▄▀█ █▀█ ▀█▀ █░█\n"
@@ -372,8 +373,11 @@ class StatsScreen(ThemedScreen):
     def compose(self) -> ComposeResult:
         palette = self.app.palette
         profile = self.app.store.profile
-        accuracy = profile.solved / profile.attempts * 100 if profile.attempts else 0
-        badges = achievements_for(profile, self.app.store.scores)
+        scores = self.app.store.scores
+        accuracy = accuracy_percent(profile)
+        badges = achievements_for(profile, scores)
+        modes = " · ".join(f"{mode} {count}" for mode, count in mode_counts(scores)) or "no runs yet"
+        form = sparkline(recent_scores(scores)) or "no scores yet"
         yield Vertical(
             Static(Text("PLAYER RECORD", style=f"bold {palette.accent}"), id="result-grade"),
             Static(
@@ -385,6 +389,10 @@ class StatsScreen(ThemedScreen):
                 ),
                 id="stats-summary",
             ),
+            ProgressBar(total=100, show_eta=False, show_percentage=False, id="accuracy-bar"),
+            Static(Text(f"ACCURACY {accuracy:.1f}%", style=palette.accent2), id="stats-label"),
+            Static(Text(f"RECENT FORM  {form}", style=palette.gold), id="stats-form"),
+            Static(Text(f"BY MODE  {modes}", style=palette.muted), id="stats-modes"),
             DataTable(id="stats-table"),
             Static(
                 Text(
@@ -399,6 +407,8 @@ class StatsScreen(ThemedScreen):
 
     def on_mount(self) -> None:
         self.paint_palette()
+        profile = self.app.store.profile
+        self.query_one("#accuracy-bar", ProgressBar).update(progress=round(accuracy_percent(profile)))
         table = self.query_one("#stats-table", DataTable)
         table.add_columns("SCORE", "MODE", "DIFFICULTY", "SOLVED", "STREAK", "DATE")
         for entry in self.app.store.scores[:10]:

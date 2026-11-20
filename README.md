@@ -78,7 +78,7 @@ reward up to **×5**. A hint halves that puzzle's reward. A wrong answer or a
 timeout costs one life and resets the streak.
 
 The menu keeps your best score, solved count and active theme. The Stats screen
-shows accuracy, best streak, top scores and achievement badges. Data is stored
+shows an accuracy bar, recent-form sparkline, mode split, top scores and achievement badges. Data is stored
 atomically in `~/.local/share/solvamath/state.json` (or under `$XDG_DATA_HOME`
 when set).
 
@@ -111,7 +111,7 @@ solvamath --repl              # practice puzzles in a terminal REPL
 make check
 ```
 
-Runs Ruff, the full 16-test suite, the CLI version check and a headless stats
+Runs Ruff, the full 19-test suite, the CLI version check and a headless stats
 smoke test. The game core has no Textual imports and is tested separately.
 
 ## Screenshots

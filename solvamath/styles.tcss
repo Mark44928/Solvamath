@@ -261,3 +261,14 @@ Button:focus {
     color: #E0CD97;
     text-style: bold;
 }
+
+#accuracy-bar {
+    width: 100%;
+    height: 1;
+    margin: 1 0 0 0;
+}
+
+#stats-label, #stats-form, #stats-modes {
+    width: 100%;
+    height: auto;
+}
