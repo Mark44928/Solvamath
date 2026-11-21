@@ -5,8 +5,14 @@ import random
 import pytest
 
 from solvamath.game import Game
-from solvamath.models import DIFFICULTY_ORDER
-from solvamath.puzzles import check_answer, daily_seed, make_puzzle, safe_eval_expression
+from solvamath.models import DIFFICULTY_ORDER, Puzzle
+from solvamath.puzzles import (
+    TARGET_SETS,
+    check_answer,
+    daily_seed,
+    make_puzzle,
+    safe_eval_expression,
+)
 
 
 def test_every_puzzle_kind_accepts_its_answer() -> None:
@@ -35,6 +41,23 @@ def test_target_requires_all_numbers_once() -> None:
     assert not check_answer(puzzle, "24")
     assert not check_answer(puzzle, "1 + 2 + 3 + 4")
     assert not check_answer(puzzle, "6 * 6")
+
+
+def test_target_accepts_unicode_times_and_divide() -> None:
+    for numbers, solution in TARGET_SETS:
+        puzzle = Puzzle(
+            "target",
+            "Make 24",
+            "",
+            "",
+            "",
+            solution + " = 24",
+            tuple(numbers),
+            24,
+        )
+        unicode_answer = solution.replace("*", "×").replace("/", "÷")
+        assert check_answer(puzzle, unicode_answer), numbers
+        assert check_answer(puzzle, solution), numbers
 
 
 def test_safe_evaluator_rejects_code_and_unknown_names() -> None:

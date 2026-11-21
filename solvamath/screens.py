@@ -57,6 +57,10 @@ class MenuScreen(ThemedScreen):
         Binding("h", "help", "Help"),
     ]
 
+    # t / x are wired through BINDINGS above (the README and the menu hint
+    # advertise them). Without a binding entry Textual routes nothing to
+    # action_cycle_theme / action_cycle_difficulty, so the keys did nothing.
+
     def __init__(self, auto_start: str | None = None) -> None:
         super().__init__()
         self.auto_start = auto_start
@@ -145,12 +149,34 @@ class MenuScreen(ThemedScreen):
         self.app.push_screen(HelpScreen())
 
 
+# The answer box is an Input, and Input.check_consume_key returns True for
+# every printable character — so the screen's binding chain strips H / K
+# from the bindings map before the app ever sees them, and the keys type
+# into the box instead of firing the hint/skip. This subclass refuses to
+# consume the game's own shortcut keys, so the screen binding survives and
+# fires even while the box is focused.
+SHORTCUT_KEYS = frozenset(("h", "k", "t", "x"))
+
+
+class AnswerInput(Input):
+    def check_consume_key(self, key: str, character: str | None) -> bool:
+        if key in SHORTCUT_KEYS:
+            return False
+        return super().check_consume_key(key, character)
+
+
 class GameScreen(ThemedScreen):
     BINDINGS = [
-        Binding("escape", "menu", "Menu"),
-        Binding("h", "hint", "Hint"),
-        Binding("k", "skip", "Skip"),
+        Binding("escape", "menu", "Menu", priority=True),
+        Binding("h", "hint", "Hint", priority=True),
+        Binding("k", "skip", "Skip", priority=True),
     ]
+
+    # H / K are advertised in the README and the game-hint line. They fire
+    # even while the answer box is focused: AnswerInput refuses to consume
+    # them, so the screen binding survives the binding chain and the app runs
+    # it before forwarding the key to the box. Without this the keys silently
+    # typed into the box.
 
     def __init__(self, game: Game) -> None:
         super().__init__()
@@ -165,7 +191,7 @@ class GameScreen(ThemedScreen):
             Vertical(
                 Static(id="puzzle-kind"),
                 Static(id="puzzle-prompt"),
-                Input(id="answer", placeholder="answer", max_length=80),
+                AnswerInput(id="answer", placeholder="answer", max_length=80),
                 id="puzzle-card",
             ),
             Static(id="feedback"),

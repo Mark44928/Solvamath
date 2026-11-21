@@ -266,7 +266,7 @@ def check_answer(puzzle: Puzzle, raw: str) -> bool:
         if numbers != tuple(sorted(puzzle.numbers)):
             return False
         try:
-            return abs(safe_eval_expression(answer) - 24) < 1e-9
+            return abs(safe_eval_expression(answer.replace("×", "*").replace("÷", "/")) - 24) < 1e-9
         except ValueError:
             return False
     if puzzle.kind == "operators":
@@ -275,6 +275,20 @@ def check_answer(puzzle: Puzzle, raw: str) -> bool:
         return (answer in {"y", "yes", "true", "1"}) if puzzle.answer == "yes" else (
             answer in {"n", "no", "false", "0"}
         )
+    # Every numeric puzzle prints a human-readable solution ("x = 10",
+    # "next = 36", "answer = 36", "41 is the first prime after 37.") whose
+    # value is the bare answer. Accept that form too — before this only the
+    # bare number was accepted, so typing the solution exactly as shown was
+    # rejected. The answer is the FIRST number in the solution for "prime"
+    # ("41 is the first prime after 37.") and the LAST one everywhere else,
+    # so match either end.
+    nums = re.findall(r"-?\d+(?:\.\d+)?", answer)
+    if nums:
+        try:
+            want = float(puzzle.answer)
+            return float(nums[0]) == want or float(nums[-1]) == want
+        except ValueError:
+            return False
     try:
         return float(answer) == float(puzzle.answer)
     except ValueError:

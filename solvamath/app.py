@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from textual import events
 from textual.app import App
 
 from .game import Game
@@ -31,6 +32,9 @@ class SolvamathApp(App[None]):
 
     def on_mount(self) -> None:
         self.push_screen(MenuScreen(auto_start=self.start_mode))
+
+    def on_resize(self, event: events.Resize) -> None:
+        self.screen.set_class(event.size.width < 64, "narrow")
 
     def start_game(self, mode: str) -> None:
         self.switch_screen(GameScreen(Game(mode, self.store.settings.difficulty, self.seed)))

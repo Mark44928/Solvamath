@@ -272,3 +272,9 @@ Button:focus {
     width: 100%;
     height: auto;
 }
+
+/* narrow fallback: <64 cols, single-column grids + stacked action rows */
+.narrow #mode-grid { grid-size: 1 1; }
+.narrow #utility-row { grid-size: 2 2; }
+.narrow #result-buttons, .narrow #game-actions { layout: vertical; height: auto; }
+.narrow #result-buttons Button, .narrow #game-actions Button { width: 100%; height: 3; }

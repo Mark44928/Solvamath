@@ -56,7 +56,7 @@ solvamath
 
 Difficulties range from **Easy** to **Expert**. They change the number ranges,
 puzzle mix, time limit and scoring. Themes: **Greenit**, **Bluney**, **Yellen**, **Nord**,
-**Dracula** and **Mono**.
+**Dracula**, **Gruvbox**, **Catppuccin**, **Tokyo Night** and **Mono**.
 
 ## Puzzle families
 
@@ -93,6 +93,9 @@ when set).
 | `T` | cycle theme |
 | `X` | cycle difficulty |
 | `CTRL+Q` | quit |
+
+> H / K (and T / X on the menu) are priority keybinds: they fire even while
+> the answer box is focused, so you never have to click away to hint or skip.
 
 ## CLI
 

@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from .game import Game
 
 MAX_SCORES = 20
-THEME_KEYS = ("greenit", "bluney", "nord", "dracula", "mono")
+THEME_KEYS = ("greenit", "bluney", "yellen", "nord", "dracula", "gruvbox", "catppuccin", "tokyonight", "mono")
 
 
 def default_data_dir() -> Path:
