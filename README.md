@@ -142,3 +142,7 @@ smoke test. The game core has no Textual imports and is tested separately.
 ## License
 
 MIT.
+
+---
+
+**More projects:** [Mark44928's hub](https://mark44928.github.io/Mark44928/) — a family of dependency-free tools for Termux, Linux, and the terminal.
