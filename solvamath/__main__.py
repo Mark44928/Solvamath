@@ -25,6 +25,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--stats", action="store_true", help="print persistent stats and exit")
     parser.add_argument("--repl", action="store_true", help="practice puzzles in a REPL")
     parser.add_argument("--seed", type=int, help="use a fixed puzzle seed (testing/replays)")
+    parser.add_argument("--list-themes", action="store_true", help="print available themes and exit")
     return parser
 
 
@@ -130,6 +131,9 @@ def run_repl(store: Store) -> int:
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     store = Store()
+    if args.list_themes:
+        print("available themes: " + ", ".join(THEME_ORDER))
+        return 0
     if args.difficulty:
         store.update_settings(difficulty=args.difficulty)
     if args.theme:
