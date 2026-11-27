@@ -18,7 +18,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="solvamath",
         description="A full-featured terminal math puzzle game.",
     )
-    parser.add_argument("--version", action="version", version=f"solvamath {__version__}")
+    parser.add_argument("--version", "-v", action="version", version=f"solvamath {__version__}")
     parser.add_argument("--daily", action="store_true", help="start today's shared daily run")
     parser.add_argument("--difficulty", choices=DIFFICULTY_ORDER, help="set difficulty for this launch")
     parser.add_argument("--theme", choices=THEME_ORDER, help="set the color theme")
