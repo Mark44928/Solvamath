@@ -36,7 +36,7 @@ THEMES = {
     ),
     "nord": Palette(
         "nord", "Nord", "#2E3440", "#3B4252", "#434C5E",
-        "#ECEFF4", "#9AA7B8", "#88C0D0", "#81A1C1", "#EBCB8B", "#A3BE8C", "#BF616A",
+        "#D8DEE9", "#4C566A", "#88C0D0", "#81A1C1", "#EBCB8B", "#A3BE8C", "#BF616A",
     ),
     "dracula": Palette(
         "dracula", "Dracula", "#282A36", "#343746", "#44475A",
