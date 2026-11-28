@@ -5,7 +5,7 @@ from __future__ import annotations
 from rich.text import Text
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.containers import Horizontal, Vertical
+from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.css.query import NoMatches
 from textual.screen import Screen
 from textual.widgets import Button, DataTable, Input, ProgressBar, Static
@@ -69,45 +69,48 @@ class MenuScreen(ThemedScreen):
         palette = self.app.palette
         profile = self.app.store.profile
         best = profile.best_score
-        yield Vertical(
-            Static(Text(LOGO, style=f"bold {palette.accent}"), id="logo"),
-            Static(
-                Text(
-                    "MATH PUZZLES · ONE DESK · NO MERCY",
-                    style=f"bold {palette.accent2}",
-                ),
-                id="tagline",
-            ),
-            Static(
-                Text(
-                    f"RUNS {profile.runs}   SOLVED {profile.solved}   BEST {best}",
-                    style=palette.gold,
-                ),
-                id="profile-line",
-            ),
-            Static("CHOOSE A RUN", id="section-label"),
+        yield VerticalScroll(
             Vertical(
-                Button("CAMPAIGN · three lives", id="start-campaign", classes="mode"),
-                Button("DAILY · shared seed", id="start-daily", classes="mode"),
-                Button("ENDLESS · one life run", id="start-endless", classes="mode"),
-                Button("ZEN · no timer", id="start-zen", classes="mode"),
-                id="mode-grid",
-            ),
-            Horizontal(
-                Button(
-                    f"DIFF · {DIFFICULTIES[self.app.store.settings.difficulty].label.upper()}",
-                    id="difficulty",
+                Static(Text(LOGO, style=f"bold {palette.accent}"), id="logo"),
+                Static(
+                    Text(
+                        "MATH PUZZLES · ONE DESK · NO MERCY",
+                        style=f"bold {palette.accent2}",
+                    ),
+                    id="tagline",
                 ),
-                Button(f"THEME · {palette.label.upper()}", id="theme"),
-                Button("STATS [S]", id="stats"),
-                Button("HELP [H]", id="help"),
-                id="utility-row",
+                Static(
+                    Text(
+                        f"RUNS {profile.runs}   SOLVED {profile.solved}   BEST {best}",
+                        style=palette.gold,
+                    ),
+                    id="profile-line",
+                ),
+                Static("CHOOSE A RUN", id="section-label"),
+                Vertical(
+                    Button("CAMPAIGN · three lives", id="start-campaign", classes="mode"),
+                    Button("DAILY · shared seed", id="start-daily", classes="mode"),
+                    Button("ENDLESS · one life run", id="start-endless", classes="mode"),
+                    Button("ZEN · no timer", id="start-zen", classes="mode"),
+                    id="mode-grid",
+                ),
+                Horizontal(
+                    Button(
+                        f"DIFF · {DIFFICULTIES[self.app.store.settings.difficulty].label.upper()}",
+                        id="difficulty",
+                    ),
+                    Button(f"THEME · {palette.label.upper()}", id="theme"),
+                    Button("STATS [S]", id="stats"),
+                    Button("HELP [H]", id="help"),
+                    id="utility-row",
+                ),
+                Static(
+                    "ENTER choose · T theme · X difficulty · CTRL+Q quit",
+                    id="menu-hint",
+                ),
+                id="menu",
             ),
-            Static(
-                "ENTER choose · T theme · X difficulty · CTRL+Q quit",
-                id="menu-hint",
-            ),
-            id="menu",
+            classes="screen-scroll",
         )
 
     def on_mount(self) -> None:
@@ -184,28 +187,31 @@ class GameScreen(ThemedScreen):
         self._waiting = False
 
     def compose(self) -> ComposeResult:
-        yield Vertical(
-            Static(id="game-title"),
-            Static(id="status-line"),
-            ProgressBar(total=100, show_eta=False, show_percentage=False, id="timer"),
+        yield VerticalScroll(
             Vertical(
-                Static(id="puzzle-kind"),
-                Static(id="puzzle-prompt"),
-                AnswerInput(id="answer", placeholder="answer", max_length=80),
-                id="puzzle-card",
+                Static(id="game-title"),
+                Static(id="status-line"),
+                ProgressBar(total=100, show_eta=False, show_percentage=False, id="timer"),
+                Vertical(
+                    Static(id="puzzle-kind"),
+                    Static(id="puzzle-prompt"),
+                    AnswerInput(id="answer", placeholder="answer", max_length=80),
+                    id="puzzle-card",
+                ),
+                Static(id="feedback"),
+                Horizontal(
+                    Button("HINT [H]", id="hint"),
+                    Button("SKIP [K]", id="skip"),
+                    Button("MENU [ESC]", id="to-menu"),
+                    id="game-actions",
+                ),
+                Static(
+                    "ENTER check · H hint · K skip · ESC menu",
+                    id="game-hint",
+                ),
+                id="game",
             ),
-            Static(id="feedback"),
-            Horizontal(
-                Button("HINT [H]", id="hint"),
-                Button("SKIP [K]", id="skip"),
-                Button("MENU [ESC]", id="to-menu"),
-                id="game-actions",
-            ),
-            Static(
-                "ENTER check · H hint · K skip · ESC menu",
-                id="game-hint",
-            ),
-            id="game",
+            classes="screen-scroll",
         )
 
     def on_mount(self) -> None:
@@ -346,32 +352,35 @@ class ResultsScreen(ThemedScreen):
         )
         achievements = achievements_for(self.app.store.profile, self.app.store.scores)[-3:]
         ach_text = " · ".join(f"{item.title}" for item in achievements) or "No badges yet"
-        yield Vertical(
-            Static(Text(f"{grade}  RUN COMPLETE", style=f"bold {palette.gold}"), id="result-grade"),
-            Static(
-                Text(
-                    f"Score {self.game.score}   ·   Solved {self.game.solved}/{self.game.attempts}   ·   "
-                    f"Best streak {self.game.best_streak}",
-                    style=palette.text,
+        yield VerticalScroll(
+            Vertical(
+                Static(Text(f"{grade}  RUN COMPLETE", style=f"bold {palette.gold}"), id="result-grade"),
+                Static(
+                    Text(
+                        f"Score {self.game.score}   ·   Solved {self.game.solved}/{self.game.attempts}   ·   "
+                        f"Best streak {self.game.best_streak}",
+                        style=palette.text,
+                    ),
+                    id="result-summary",
                 ),
-                id="result-summary",
-            ),
-            Static(
-                Text(
-                    ("NEW PERSONAL BEST  " if self.new_best else "")
-                    + f"{self.game.mode.label} / {self.game.difficulty.label}",
-                    style=palette.success if self.new_best else palette.muted,
+                Static(
+                    Text(
+                        ("NEW PERSONAL BEST  " if self.new_best else "")
+                        + f"{self.game.mode.label} / {self.game.difficulty.label}",
+                        style=palette.success if self.new_best else palette.muted,
+                    ),
+                    id="result-detail",
                 ),
-                id="result-detail",
+                Static(Text("BADGES · " + ach_text, style=palette.gold), id="achievements"),
+                Horizontal(
+                    Button("PLAY AGAIN [R]", id="replay"),
+                    Button("STATS", id="stats"),
+                    Button("MENU [ESC]", id="to-menu"),
+                    id="result-buttons",
+                ),
+                id="result-card",
             ),
-            Static(Text("BADGES · " + ach_text, style=palette.gold), id="achievements"),
-            Horizontal(
-                Button("PLAY AGAIN [R]", id="replay"),
-                Button("STATS", id="stats"),
-                Button("MENU [ESC]", id="to-menu"),
-                id="result-buttons",
-            ),
-            id="result-card",
+            classes="screen-scroll",
         )
 
     def on_mount(self) -> None:
@@ -404,31 +413,34 @@ class StatsScreen(ThemedScreen):
         badges = achievements_for(profile, scores)
         modes = " · ".join(f"{mode} {count}" for mode, count in mode_counts(scores)) or "no runs yet"
         form = sparkline(recent_scores(scores)) or "no scores yet"
-        yield Vertical(
-            Static(Text("PLAYER RECORD", style=f"bold {palette.accent}"), id="result-grade"),
-            Static(
-                Text(
-                    f"Runs {profile.runs}   ·   Solved {profile.solved}   ·   "
-                    f"Accuracy {accuracy:.1f}%   ·   Best streak {profile.best_streak}   ·   "
-                    f"Best score {profile.best_score}",
-                    style=palette.text,
+        yield VerticalScroll(
+            Vertical(
+                Static(Text("PLAYER RECORD", style=f"bold {palette.accent}"), id="result-grade"),
+                Static(
+                    Text(
+                        f"Runs {profile.runs}   ·   Solved {profile.solved}   ·   "
+                        f"Accuracy {accuracy:.1f}%   ·   Best streak {profile.best_streak}   ·   "
+                        f"Best score {profile.best_score}",
+                        style=palette.text,
+                    ),
+                    id="stats-summary",
                 ),
-                id="stats-summary",
-            ),
-            ProgressBar(total=100, show_eta=False, show_percentage=False, id="accuracy-bar"),
-            Static(Text(f"ACCURACY {accuracy:.1f}%", style=palette.accent2), id="stats-label"),
-            Static(Text(f"RECENT FORM  {form}", style=palette.gold), id="stats-form"),
-            Static(Text(f"BY MODE  {modes}", style=palette.muted), id="stats-modes"),
-            DataTable(id="stats-table"),
-            Static(
-                Text(
-                    "BADGES · " + (" · ".join(item.title for item in badges) or "none yet"),
-                    style=palette.gold,
+                ProgressBar(total=100, show_eta=False, show_percentage=False, id="accuracy-bar"),
+                Static(Text(f"ACCURACY {accuracy:.1f}%", style=palette.accent2), id="stats-label"),
+                Static(Text(f"RECENT FORM  {form}", style=palette.gold), id="stats-form"),
+                Static(Text(f"BY MODE  {modes}", style=palette.muted), id="stats-modes"),
+                DataTable(id="stats-table"),
+                Static(
+                    Text(
+                        "BADGES · " + (" · ".join(item.title for item in badges) or "none yet"),
+                        style=palette.gold,
+                    ),
+                    id="achievements",
                 ),
-                id="achievements",
+                Horizontal(Button("BACK [ESC]", id="back"), id="result-buttons"),
+                id="stats-card",
             ),
-            Horizontal(Button("BACK [ESC]", id="back"), id="result-buttons"),
-            id="stats-card",
+            classes="screen-scroll",
         )
 
     def on_mount(self) -> None:
@@ -485,11 +497,14 @@ class HelpScreen(ThemedScreen):
             "ENTER submit · H hint · K skip · ESC menu · T theme · X difficulty",
             style=palette.text,
         )
-        yield Vertical(
-            Static(Text("HOW TO PLAY", style=f"bold {palette.accent}"), id="result-grade"),
-            Static(body, id="help-body"),
-            Horizontal(Button("BACK [ESC]", id="back"), id="result-buttons"),
-            id="help-card",
+        yield VerticalScroll(
+            Vertical(
+                Static(Text("HOW TO PLAY", style=f"bold {palette.accent}"), id="result-grade"),
+                Static(body, id="help-body"),
+                Horizontal(Button("BACK [ESC]", id="back"), id="result-buttons"),
+                id="help-card",
+            ),
+            classes="screen-scroll",
         )
 
     def on_mount(self) -> None:
